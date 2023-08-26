@@ -18,7 +18,6 @@ blogRouter.get('/', async (req, res) => {
       } else {
         await Blog.find();
       }
-  
       res.status(200).json({msg:"all the blogs",blogs:req.body});
     } catch (error) {
       res.status(500).json({ message: 'Server error' });
