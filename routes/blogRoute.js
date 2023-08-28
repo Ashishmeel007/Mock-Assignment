@@ -8,21 +8,25 @@ blogRouter.use(auth);
 // GET all blogs
 // Merged route for getting blogs
 blogRouter.get('/', async (req, res) => {
-    try {
-      if (req.query.title) {
-        const title = req.query.title;
-        await Blog.find({ title: title });
-      } else if (req.query.category) {
-        const category = req.query.category;
-        await Blog.find({ category: category });
+  const title = req.query.title;
+  const category = req.query.category;
+  try {
+      let blogs;
+   
+      if (title) {
+          blogs = await Blog.find({ title: title });
+      } else if (category) {
+          blogs = await Blog.find({ category: category });
       } else {
-        await Blog.find();
+          blogs = await Blog.find();
       }
-      res.status(200).json({msg:"all the blogs",blogs:req.body});
-    } catch (error) {
+
+      res.status(200).json({ msg: "all the blogs", blogs: blogs }); // Send the fetched blogs
+  } catch (error) {
       res.status(500).json({ message: 'Server error' });
-    }
-  });
+  }
+});
+
   
 
 // GET blogs sorted by date
